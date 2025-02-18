@@ -1,4 +1,4 @@
-    # Halqil Backend
+# Halqil Backend
 
 Halqil - bu dasturchilar uchun yaratilgan platforma bo'lib, u yerda foydalanuvchilar dasturlash bilan bog'liq muammolarni muhokama qilishlari, savollar berishlari va javob olishlari mumkin.
 
@@ -12,6 +12,15 @@ Bu repository **Halqil** platformasining **backend** qismi uchun bo‘lib, **Nod
 - 🔹 **Muhokama qilish** – Foydalanuvchilar o‘zaro fikr almashishlari mumkin
 - 🔹 **Profilni o‘zgartirish** – Har bir foydalanuvchi o‘z profilini tahrirlashi mumkin
 - 🔹 **Qidiruv funksiyasi** – Mavjud postlarni qidirish imkoniyati
+
+## 🛠️ Texnologiyalar
+
+Loyiha quyidagi texnologiyalar yordamida ishlab chiqilgan:
+
+- ⚙ **Backend:** Node.js, Express.js
+- 🗄 **Ma'lumotlar bazasi:** MongoDB
+- 🔐 **Autentifikatsiya:** JWT (JSON Web Token)
+- 🔑 **Parollarni himoya qilish:** bcrypt.js
 
 ## 🔧 O‘rnatish
 
@@ -41,12 +50,6 @@ JWT_SECRET=your_jwt_secret
 ## 🚀 Serverni ishga tushirish
 
 Lokal serverni ishga tushirish uchun quyidagi buyruqdan foydalaning:
-
-```bash
-npm start
-```
-
-Yoki `nodemon` bilan avtomatik qayta yuklash:
 
 ```bash
 npm run dev
@@ -99,4 +102,3 @@ Agar sizda biron-bir savol yoki taklif bo‘lsa, quyidagi manzillar orqali bog�
 ---
 
 **Halqil** - bilim almashish va dasturlashdagi muammolarni hal qilish uchun platforma! ✨
-
