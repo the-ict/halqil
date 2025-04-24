@@ -1,104 +1,42 @@
-# Halqil Backend
+<h1 align="center">🛠️ Halqil – Backend API</h1>
 
-Halqil - bu dasturchilar uchun yaratilgan platforma bo'lib, u yerda foydalanuvchilar dasturlash bilan bog'liq muammolarni muhokama qilishlari, savollar berishlari va javob olishlari mumkin.
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-18.x-green?style=for-the-badge&logo=node.js" alt="Node.js Badge"/>
+  <img src="https://img.shields.io/badge/Express.js-blue?style=for-the-badge&logo=express" alt="Express Badge"/>
+  <img src="https://img.shields.io/badge/JWT-secure?style=for-the-badge&logo=jsonwebtokens&logoColor=white" alt="JWT Badge"/>
+  <img src="https://img.shields.io/badge/MongoDB-4.x-success?style=for-the-badge&logo=mongodb" alt="MongoDB Badge"/>
+</p>
 
-Bu repository **Halqil** platformasining **backend** qismi uchun bo‘lib, **Node.js**, **Express**, va **MongoDB** yordamida ishlab chiqilgan.
-
-## 📌 Xususiyatlar
-
-- 🔹 **Foydalanuvchi autentifikatsiyasi** – Ro'yhatdan o'tish, tizimga kirish va JWT token orqali autentifikatsiya qilish
-- 🔹 **Postlar yaratish, o‘chirish va tahrirlash** – Foydalanuvchilar dasturlash muammolarini post sifatida joylashlari mumkin
-- 🔹 **Fikr qoldirish** – Postlarga sharh qoldirish imkoniyati
-- 🔹 **Muhokama qilish** – Foydalanuvchilar o‘zaro fikr almashishlari mumkin
-- 🔹 **Profilni o‘zgartirish** – Har bir foydalanuvchi o‘z profilini tahrirlashi mumkin
-- 🔹 **Qidiruv funksiyasi** – Mavjud postlarni qidirish imkoniyati
-
-## 🛠️ Texnologiyalar
-
-Loyiha quyidagi texnologiyalar yordamida ishlab chiqilgan:
-
-- ⚙ **Backend:** Node.js, Express.js
-- 🗄 **Ma'lumotlar bazasi:** MongoDB
-- 🔐 **Autentifikatsiya:** JWT (JSON Web Token)
-- 🔑 **Parollarni himoya qilish:** bcrypt.js
-
-## 🔧 O‘rnatish
-
-Loyihani lokal kompyuteringizda ishga tushirish uchun quyidagi amallarni bajaring:
-
-```bash
-# Repozitoriyani klonlash
-git clone https://github.com/the-ict/Halqil-backend.git
-
-# Loyihaga kirish
-cd Halqil-backend
-
-# Kerakli kutubxonalarni o‘rnatish
-npm install
-```
-
-## ⚙️ Konfiguratsiya
-
-**.env** fayl yaratib, quyidagi konfiguratsiyani qo‘shing:
-
-```
-PORT=8800
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-```
-
-## 🚀 Serverni ishga tushirish
-
-Lokal serverni ishga tushirish uchun quyidagi buyruqdan foydalaning:
-
-```bash
-npm run dev
-```
-
-Server `http://localhost:8800` da ishlaydi.
-
-## 📡 API Yo‘nalishlari (Routes)
-
-### 🔐 Autentifikatsiya
-
-| Yo‘nalish | Metod | Tavsif |
-|-----------|-------|--------|
-| `/api/auth/signup` | `POST` | Foydalanuvchi ro‘yxatdan o‘tadi |
-| `/api/auth/signin` | `POST` | Foydalanuvchi tizimga kiradi |
-
-### 📝 Postlar
-
-| Yo‘nalish | Metod | Tavsif |
-|-----------|-------|--------|
-| `/api/problem` | `GET` | Barcha postlarni olish |
-| `/api/problem/:id` | `GET` | Bitta postni olish |
-| `/api/problem` | `POST` | Yangi post yaratish |
-| `/api/problem/:id` | `PUT` | Postni yangilash |
-| `/api/problem/:id` | `DELETE` | Postni o‘chirish |
-
-### 💬 Fikrlar (Comments)
-
-| Yo‘nalish | Metod | Tavsif |
-|-----------|-------|--------|
-| `/api/comment/:postId` | `GET` | Postga tegishli barcha fikrlarni olish |
-| `/api/comment/:postId` | `POST` | Fikr qoldirish |
-| `/api/comment/:id` | `DELETE` | Fikrni o‘chirish |
-
-## 💡 Hissa qo‘shish
-
-Agar siz loyihani yaxshilashni xohlasangiz, quyidagi amallarni bajaring:
-
-1. Repozitoriyani **fork** qiling
-2. O‘zingizning o‘zgarishlaringizni bajaring
-3. **Pull request** yuboring
-
-## 📞 Aloqa
-
-Agar sizda biron-bir savol yoki taklif bo‘lsa, quyidagi manzillar orqali bog‘lanishingiz mumkin:
-
-- **Email**: dvltinv@gmail.com
-- **Telegram**: @use_ict
+<p align="center"><strong>
+Halqil platformasining backend API qismi. Bu API foydalanuvchilarning muammolarini va ularning izohlarini boshqaradi. JWT orqali xavfsiz autentifikatsiya amalga oshirilgan.
+</strong></p>
 
 ---
 
-**Halqil** - bilim almashish va dasturlashdagi muammolarni hal qilish uchun platforma! ✨
+## 🔑 Xususiyatlar
+
+- 🔐 JWT bilan login/signup va token orqali himoyalangan marshrutlar
+- 📝 Muammolar (posts) yaratish, o‘zgartirish, o‘chirish
+- 💬 Izohlar (comments) qo‘shish va boshqarish
+- 👤 Foydalanuvchi autentifikatsiyasi va profilga oid API
+- 🧼 Middleware orqali xatoliklarni aniqlash va qayta ishlash
+- 🌍 RESTful API tuzilmasi
+
+---
+
+## 📦 Texnologiyalar
+
+- **Node.js** – Backend muhiti
+- **Express.js** – Marshrutlar va middleware
+- **MongoDB + Mongoose** – Ma’lumotlar bazasi
+- **JWT (jsonwebtoken)** – Avtorizatsiya
+- **bcryptjs** – Parollarni hash qilish
+- **dotenv** – Muhit o‘zgaruvchilari
+
+---
+
+## 🚀 O‘rnatish
+
+1. Repository'ni klonlang:
+   ```bash
+   git clone https://github.com/the-ict/halqil-backend.git
