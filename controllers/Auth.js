@@ -24,8 +24,12 @@ export const signup = async (req, res, next) => {
 
         if (!token) return next(createError(403, "Token generation failed!"));
 
-        res
-            .cookie("access_token", token, { httpOnly: true, secure: false, sameSite: "lax" })
+        res.cookie("access_token", token, {
+            httpOnly: true,
+            sameSite: "none",
+            secure: false,
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 kun
+        })
             .status(200)
             .json({ user });
 
