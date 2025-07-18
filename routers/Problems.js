@@ -1,5 +1,17 @@
 import express from "express"
-import { create, deleteProblem, getAll, getCategory, recomended, save, unrecomended, unsave, update, view } from "../controllers/Problem.js"
+import {
+    create,
+    deleteProblem,
+    getAll,
+    getCategory,
+    recomended,
+    save,
+    solve,
+    unrecomended,
+    unsave,
+    update,
+    view
+} from "../controllers/Problem.js"
 import { verifyToken } from "../jwt.js"
 
 const router = express.Router()
@@ -33,5 +45,8 @@ router.get("/", getAll);
 
 // GET category Problems
 router.post("/find", getCategory)
+
+// setSolution
+router.put("/solution", verifyToken, solve);
 
 export default router

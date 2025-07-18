@@ -92,6 +92,12 @@ export const recomended = async (req, res, next) => {
 
 export const save = async (req, res, next) => {
     try {
+        const updatedUser = await User.findById(req.params.user_id);
+
+        if(updatedUser.saved_problems.includes(req.params.problem_id)) {
+            return next(createError(403, "Problem already saved!"));
+        }
+
         const updatedProblem = await Problem.findByIdAndUpdate(
             req.params.problem_id,
             { $inc: { saved: 1 } }, // ✅ saved ni 1 taga oshiramiz
@@ -104,11 +110,15 @@ export const save = async (req, res, next) => {
             }
         })
 
+
         if (!updatedProblem) {
             return next(createError(404, "Problem not found!"))
         }
 
-        res.status(200).json(updatedProblem);
+        res.status(200).json({
+            problem: updatedProblem,
+            user: updatedUser
+        });
     } catch (error) {
         next(error);
     }
@@ -171,5 +181,38 @@ export const getCategory = async (req, res, next) => {
         res.status(200).json(problems)
     } catch (error) {
         next(error)
+    }
+}
+
+export const solve = async (req, res, next) => {
+    try {
+        const { problemId, solutionUserId, problemAuthorId, commentId } = req.body;
+
+        if(req.user !== problemAuthorId) return next(createError(403, "You are not authorized to set a solution for this problem!"));
+
+        if (!problemId || !solutionUserId || !commentId) {
+            return next(createError(400, "Problem ID, solution user ID, and comment ID are required!"));
+        }
+
+        // Update the Problem with the solution comment ID
+        const updatedProblem = await Problem.findByIdAndUpdate(
+            problemId,
+            { solution: commentId },
+            { new: true }
+        );
+
+        // Update the User with the solved problem ID
+        await User.findByIdAndUpdate(
+            solutionUserId,
+            { $push: {solutions: problemId} }
+        );
+
+        if (!updatedProblem) {
+            return next(createError(404, "Problem not found!"));
+        }
+
+        res.status(200).json(updatedProblem);
+    } catch (error) {
+        next(error);
     }
 }

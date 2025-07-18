@@ -33,7 +33,11 @@ const ProblemSchema = new mongoose.Schema({
     category: {
         type: [String],
         required: true
-    }
+    },
+    solution: {
+        type: String,
+        required: false
+    },
 }, { timestamps: true })
 
 
