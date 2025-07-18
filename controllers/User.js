@@ -5,8 +5,8 @@ import bcryptjs from "bcryptjs"
 export const update = async (req, res, next) => {
     try {
         console.log("boshlandi!")
-        console.log(req.user.id)
-        console.log(req.user.user_id)
+        console.log(req.user.id, "jwt id")
+        console.log(req.body.user_id, "jwt user_id")
         if (req.user.id === req.body.user_id) {
             console.log("it run");
 

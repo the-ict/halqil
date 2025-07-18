@@ -20,10 +20,12 @@ export const signup = async (req, res, next) => {
 
         const token = generateToken({ id: user._id });
 
+        console.log("Generated token:", token);
+
         if (!token) return next(createError(403, "Token generation failed!"));
 
         res
-            .cookie("access_token", token, { httpOnly: true, secure: true })
+            .cookie("access_token", token, { httpOnly: true, secure: false, sameSite: "lax" })
             .status(200)
             .json({ user });
 
@@ -49,7 +51,7 @@ export const signin = async (req, res, next) => {
         const { password, ...others } = user._doc;
 
         res
-            .cookie("access_token", token, { httpOnly: true, secure: true })
+            .cookie("access_token", token, { httpOnly: true, secure: false, sameSite: "none" })
             .status(200)
             .json(others);
 
