@@ -17,27 +17,27 @@ import problemRouter from "./routers/Problems.js"
 import userRouter from "./routers/User.js"
 
 
+dotenv.config()
+const app = express()
+app.use(express.json())
+app.use(cookieParser())
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "./images")
     },
     filename: (req, file, cb) => {
-        console.log("req body name: ", req.body.name)
-        cb(null, req.body.name)
+        cb(null, file.originalname)
     }
 })
 
 const upload = multer({ storage })
 
-
-dotenv.config()
-const app = express()
-app.use(express.json())
-app.use(cookieParser())
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true
-}));
 
 app.use((err, req, res, next) => {
     console.log(err, "from middleware")
