@@ -58,7 +58,7 @@ export const unrecomended = async (req, res, next) => {
     try {
         const updatedProblem = await Problem.findByIdAndUpdate(
             req.params.problem_id,
-            { $inc: { recomend: -1 } },
+            { $pull: { recomend: req.params.user_id } },
             { new: true }
         );
 
@@ -76,7 +76,7 @@ export const recomended = async (req, res, next) => {
     try {
         const updatedProblem = await Problem.findByIdAndUpdate(
             req.params.problem_id,
-            { $inc: { recomend: 1 } },
+            { $push: { recomend: req.params.user_id } },
             { new: true }
         );
 
@@ -94,7 +94,7 @@ export const save = async (req, res, next) => {
     try {
         const updatedUser = await User.findById(req.params.user_id);
 
-        if(updatedUser.saved_problems.includes(req.params.problem_id)) {
+        if (updatedUser.saved_problems.includes(req.params.problem_id)) {
             return next(createError(403, "Problem already saved!"));
         }
 
@@ -187,31 +187,56 @@ export const getCategory = async (req, res, next) => {
 export const solve = async (req, res, next) => {
     try {
         const { problemId, solutionUserId, problemAuthorId, commentId } = req.body;
+        console.log("Setting solution for problem:", problemId, "by user:", solutionUserId);
+        console.log("Problem author ID:", problemAuthorId);
+        console.log("Comment ID:", commentId);
 
-        if(req.user !== problemAuthorId) return next(createError(403, "You are not authorized to set a solution for this problem!"));
+        if (req.user !== problemAuthorId) {
+            return next(createError(403, "You are not authorized to set a solution for this problem!"));
+        }
 
         if (!problemId || !solutionUserId || !commentId) {
             return next(createError(400, "Problem ID, solution user ID, and comment ID are required!"));
         }
 
-        // Update the Problem with the solution comment ID
-        const updatedProblem = await Problem.findByIdAndUpdate(
+        // Update the problem with the solution comment ID
+        const problem = await Problem.findByIdAndUpdate(
             problemId,
             { solution: commentId },
             { new: true }
         );
 
-        // Update the User with the solved problem ID
-        await User.findByIdAndUpdate(
-            solutionUserId,
-            { $push: {solutions: problemId} }
-        );
+        console.log("Problem updated with solution:", problem);
 
-        if (!updatedProblem) {
+        if (!problem) {
             return next(createError(404, "Problem not found!"));
         }
 
-        res.status(200).json(updatedProblem);
+        // Update the user with the solved problem ID
+        await User.findByIdAndUpdate(
+            solutionUserId,
+            { $push: { solutions: problemId } }
+        );
+
+        res.status(200).json(problem);
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const getSavedProblems = async (req, res, next) => {
+    try {
+        const { userId } = req.params;
+        const user = await User.findById(userId);
+
+        console.log("User found:", user);
+
+        if (!user) {
+            return res.status(404).json({ message: "Foydalanuvchi topilmadi" });
+        }
+
+        const savedProblems = await Problem.find({ _id: { $in: user.saved_problems } });
+        res.status(200).json(savedProblems);
     } catch (error) {
         next(error);
     }

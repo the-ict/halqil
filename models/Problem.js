@@ -22,9 +22,8 @@ const ProblemSchema = new mongoose.Schema({
         required: false,
     },
     recomend: {
-        type: Number,
+        type: [String],
         required: false,
-        default: 0
     },
     author_id: {
         type: String,

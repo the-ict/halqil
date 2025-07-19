@@ -4,6 +4,7 @@ import {
     deleteProblem,
     getAll,
     getCategory,
+    getSavedProblems,
     recomended,
     save,
     solve,
@@ -29,10 +30,10 @@ router.delete("/:id", verifyToken, deleteProblem)
 router.put("/view/:problem_id", view);
 
 // UNRECOMENDED Problem
-router.put("/unrecommend/:problem_id", unrecomended);
+router.put("/unrecommend/:problem_id/:user_id", unrecomended);
 
 // RECOMENDED Problem
-router.put("/recomended/:problem_id", recomended);
+router.put("/recomended/:problem_id/:user_id", recomended);
 
 // SAVE Problem
 router.put("/save/:problem_id/:user_id", save);
@@ -48,5 +49,8 @@ router.post("/find", getCategory)
 
 // setSolution
 router.put("/solution", verifyToken, solve);
+
+// get saved problems 
+router.get("/saved/:userId", getSavedProblems);
 
 export default router
