@@ -1,19 +1,28 @@
-import jwt from "jsonwebtoken"
-import { createError } from "./error.js"
+import jwt from "jsonwebtoken";
+import { createError } from "./error.js";
 
+// ✅ Token yaratish
 export const generateToken = (info) => {
-    return jwt.sign(info, process.env.JWT)
-}
+    return jwt.sign(
+        {
+            id: info.id
+        },
+        process.env.JWT,                          // .env dagi maxfiy kalit
+        { expiresIn: "7d" }                        // token muddati
+    );
+};
 
+// ✅ Tokenni tekshirish (middleware)
 export const verifyToken = (req, res, next) => {
-    console.log("backend cookies: ", req.cookies)
-    const token = req.cookies.access_token
-    if (!token) return next(createError(403, "Wrong informations!"))
+    const token = req.cookies.access_token;
+
+    if (!token) {
+        return next(createError(403, "Token topilmadi (access_token cookie)!"));
+    }
 
     jwt.verify(token, process.env.JWT, (err, user) => {
-        if (err) return createError(403, "Token is not valid!")
-        req.user = user
-        console.log("in the jwt:", user)
-        next()
-    })
-}
+        if (err) return next(createError(403, "Token yaroqsiz!"));
+        req.user = user;
+        next();
+    });
+};

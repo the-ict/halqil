@@ -111,3 +111,14 @@ export const getPostComments = async (req, res, next) => {
         console.log(error)
     }
 }
+
+
+export const getOneComment =  async (req, res) => {
+    try {
+        const comment = await Comment.findById(req.params.id)
+        if (!comment) return res.status(404).json({ message: "Comment not found" })
+        res.status(200).json(comment)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}

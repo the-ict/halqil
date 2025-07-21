@@ -187,11 +187,8 @@ export const getCategory = async (req, res, next) => {
 export const solve = async (req, res, next) => {
     try {
         const { problemId, solutionUserId, problemAuthorId, commentId } = req.body;
-        console.log("Setting solution for problem:", problemId, "by user:", solutionUserId);
-        console.log("Problem author ID:", problemAuthorId);
-        console.log("Comment ID:", commentId);
 
-        if (req.user !== problemAuthorId) {
+        if (req.user.id !== problemAuthorId) {
             return next(createError(403, "You are not authorized to set a solution for this problem!"));
         }
 

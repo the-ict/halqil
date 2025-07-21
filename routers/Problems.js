@@ -48,7 +48,7 @@ router.get("/", getAll);
 router.post("/find", getCategory)
 
 // setSolution
-router.put("/solution", verifyToken, solve);
+router.put("/solution/update", verifyToken, solve);
 
 // get saved problems 
 router.get("/saved/:userId", getSavedProblems);

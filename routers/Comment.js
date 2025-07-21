@@ -1,5 +1,5 @@
 import express from "express"
-import { create, deleteComment, dislike, getComments, getPostComments, like, update } from "../controllers/Comment.js"
+import { create, deleteComment, dislike, getComments, getOneComment, getPostComments, like, update } from "../controllers/Comment.js"
 import { verifyToken } from "../jwt.js"
 
 const router = express.Router()
@@ -24,4 +24,9 @@ router.put("/unlike/:comment_id/:user_id", dislike)
 
 // GET post comments
 router.get("/find/:post_id", getPostComments)
+
+// GET one comment
+router.get("/:id", getOneComment)
+
+
 export default router
