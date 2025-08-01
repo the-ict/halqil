@@ -7,9 +7,11 @@ import multer from "multer"
 import path from "path"
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import passport from "passport";
+import session from "express-session";
+import './routers/AuthGoogle.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
 
 import authRouter from "./routers/Auth.js"
 import commentRouter from "./routers/Comment.js"
@@ -23,9 +25,16 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true
+    origin: 'http://localhost:5173',
+    credentials: true
 }));
+app.use(session({
+    secret: process.env.MY_SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+}))
+app.use(passport.initialize());
+app.use(passport.session());
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -58,7 +67,35 @@ app.use("/api/user", userRouter)
 app.use("/api/comment", commentRouter)
 app.use("/api/problem", problemRouter)
 
-app.listen(process.env.PORT || 5000, () => {
+
+app.get('/google/auth',
+    passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+app.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "http://localhost:5173/login",
+    successRedirect: "http://localhost:5173",
+  })
+);
+
+app.get("/google/me", (req, res) => {
+  try {
+    console.log("requesting");
+    console.log(req.user);
+    if (req.isAuthenticated()) {
+      console.log("user informations: ", req.user);
+      res.send(req.user);
+    } else {
+      res.send("You have'nt registreted before");
+    }
+  } catch (error) {
+    res.status(401).json({ message: "Google informations not founded" });
+  }
+});
+
+app.listen(process.env.PORT || 3000, () => {
     connect()
     console.log("Connected to SERVER!")
 })

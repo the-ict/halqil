@@ -4,6 +4,9 @@ import { generateToken } from "../jwt.js"
 import User from "../models/User.js"
 
 export const signup = async (req, res, next) => {
+    if (!req.body.username || !req.body.password) {
+        return next(createError(400, "Username and password are required!"));
+    }
     try {
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt);
@@ -39,6 +42,9 @@ export const signup = async (req, res, next) => {
 }
 
 export const signin = async (req, res, next) => {
+    if (!req.body.username || !req.body.password) {
+        return next(createError(400, "Username and password are required!"));
+    }
     try {
         const user = await User.findOne({ username: req.body.username });
 
