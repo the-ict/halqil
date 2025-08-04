@@ -15,8 +15,10 @@ export const generateToken = (info) => {
 // ✅ Tokenni tekshirish (middleware)
 export const verifyToken = (req, res, next) => {
     const token = req.cookies.access_token;
+    console.log(token)
 
     if (!token) {
+        console.log("demak token mavjud emas!")
         return next(createError(403, "Token topilmadi (access_token cookie)!"));
     }
 
